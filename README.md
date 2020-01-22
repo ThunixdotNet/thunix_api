@@ -23,7 +23,9 @@ The API shall return a 501 for requests which exist in the spec, but have not be
 
 The API is a RESTful API, and the following URIs will be used:
 
-```https:{hostname}/api/1/{action}```
+```
+https:{hostname}/api/1/{action}
+```
 
 
 ## Informational APIs
@@ -33,7 +35,8 @@ The API is a RESTful API, and the following URIs will be used:
 This endpoint shall return a json struct containing interfaces, and IP addresses in CIDR format:
 
 
-```{
+```
+{
     "Interfaces":[
       {
          "Name":"eth0",
