@@ -1,9 +1,11 @@
+#!/usr/bin/python3
+
 # thunix_api.py
 import flask
 
 from flask import Flask, request, jsonify
 
-import psutil, datetime
+import psutil, datetime, time
 
 
 app = Flask(__name__)
@@ -26,8 +28,25 @@ def ip_info():
 # uptime
 @app.route("/uptime")
 def uptime():
-
-    return str(datetime.timedelta(seconds=psutil.boot_time()))
+    with open('/proc/uptime', 'r') as f:
+      secs = float(f.readline().split()[0])
+    day = secs // (24 * 3600)
+    secs = secs % (24 * 3600)
+    hour = secs // 3600
+    secs %= 3600
+    minutes = secs // 60
+    secs %= 60
+    seconds = secs 
+    payload = [
+        {
+          "days": day,
+          "hours": hour,
+          "minutes": minutes,
+          "seconds": seconds
+        }
+    ]
+    return jsonify(payload)
+        
     app.run()
 
 
