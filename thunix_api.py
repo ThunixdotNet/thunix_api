@@ -21,6 +21,7 @@ def home():
 # ip_info
 @app.route("/ip_info")
 def ip_info():
+    #for nic, addrs in psutil.net_if_addrs().items():
     return "IP Info"
     app.run()
 
