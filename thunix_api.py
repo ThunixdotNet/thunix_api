@@ -5,7 +5,7 @@ import flask
 
 from flask import Flask, request, jsonify
 
-import psutil, datetime, time
+import psutil, datetime, time, socket
 
 
 app = Flask(__name__)
@@ -21,8 +21,32 @@ def home():
 # ip_info
 @app.route("/ip_info")
 def ip_info():
-    #for nic, addrs in psutil.net_if_addrs().items():
-    return "IP Info"
+    def get_ip_addresses(family):
+        for interface, snics in psutil.net_if_addrs().items():
+            for snic in snics:
+                if snic.family == family:
+                    yield (interface, snic.address, snic.netmask)
+
+    ipv4s = list(get_ip_addresses(socket.AF_INET))
+
+
+    json_payload = "{\n\t\"Interfaces\":[\n"
+    i = 0
+    for i in range(len(ipv4s)) :
+      json_payload = json_payload + "\t\t{\n"
+      json_payload = json_payload + "\t\t\t\"Interface\":" + "\"" + ipv4s[i][0] + "\",\n"
+      json_payload = json_payload + "\t\t\t\"Address\":" + "\"" + ipv4s[i][1] + "\",\n"
+      json_payload = json_payload + "\t\t\t\"Netmask\":" + "\"" + ipv4s[i][2] + "\"\n"
+      json_payload = json_payload + "\t\t}"
+      i = i + 1
+      if (i < len(ipv4s)) :
+        json_payload = json_payload + ",\n"
+      else:
+        json_payload = json_payload + "\n"
+    json_payload = json_payload + "\t]\n"
+    json_payload = json_payload + "}\n"
+
+    return json_payload
     app.run()
 
 
