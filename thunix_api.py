@@ -5,7 +5,7 @@ import flask
 
 from flask import Flask, request, jsonify
 
-import psutil, datetime, time, socket
+import psutil, datetime, time, socket, json
 
 
 app = Flask(__name__)
@@ -14,13 +14,16 @@ app = Flask(__name__)
 # No endpoint selected
 @app.route("/")
 def home():
-    return "The Thunix API.  Please see https://wiki.thunix.net/wiki/api for more information."
+    print ("Content-Type: application/json\n")
+    payload = [{"Description":"The Thunix API.  Please see https://wiki.thunix.net/wiki/api for more information."}]
+    return jsonify(payload) 
     app.run()
 
 
 # ip_info
 @app.route("/ip_info")
 def ip_info():
+    print ("Content-Type: application/json\n")
     def get_ip_addresses(family):
         for interface, snics in psutil.net_if_addrs().items():
             for snic in snics:
@@ -30,29 +33,30 @@ def ip_info():
     ipv4s = list(get_ip_addresses(socket.AF_INET))
 
 
-    json_payload = "{\n\t\"Interfaces\":[\n"
+    payload = "{\"Interfaces\":["
     i = 0
     for i in range(len(ipv4s)) :
-      json_payload = json_payload + "\t\t{\n"
-      json_payload = json_payload + "\t\t\t\"Interface\":" + "\"" + ipv4s[i][0] + "\",\n"
-      json_payload = json_payload + "\t\t\t\"Address\":" + "\"" + ipv4s[i][1] + "\",\n"
-      json_payload = json_payload + "\t\t\t\"Netmask\":" + "\"" + ipv4s[i][2] + "\"\n"
-      json_payload = json_payload + "\t\t}"
+      payload = payload + "{"
+      payload = payload + '"Interface":' + '"' + ipv4s[i][0] + '",'
+      payload = payload + '"Address":' + '"' + ipv4s[i][1] + '",'
+      payload = payload + '"Netmask":' + '"' + ipv4s[i][2] + '"'
+      payload = payload + "}"
       i = i + 1
       if (i < len(ipv4s)) :
-        json_payload = json_payload + ",\n"
+        payload = payload + ","
       else:
-        json_payload = json_payload + "\n"
-    json_payload = json_payload + "\t]\n"
-    json_payload = json_payload + "}\n"
-
-    return json_payload
+        payload = payload + ""
+    payload = payload + "]"
+    payload = payload + "}"
+    payload = json.loads(payload)
+    return jsonify(payload)
     app.run()
 
 
 # uptime
 @app.route("/uptime")
 def uptime():
+    print ("Content-Type: application/json\n")
     with open('/proc/uptime', 'r') as f:
       secs = float(f.readline().split()[0])
     day = secs // (24 * 3600)
@@ -77,17 +81,17 @@ def uptime():
 # load avg
 @app.route("/load")
 def loadaverage():
+    print ("Content-Type: application/json\n")
     loadavg = psutil.getloadavg()
-    json_payload=[{"1min":loadavg[0], "5min":loadavg[1], "10min":loadavg[2]}]
+    payload=[{"1min":loadavg[0], "5min":loadavg[1], "10min":loadavg[2]}]
 
-    return jsonify(json_payload)
+    return jsonify(payload)
     app.run()
-
-
 
 # teapot
 @app.route("/teapot")
 def teapot():
+    print ("Content-Type: application/json\n")
     teapots = [
         {
             "tea": "available",
