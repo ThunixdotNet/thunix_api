@@ -74,6 +74,16 @@ def uptime():
         
     app.run()
 
+# load avg
+@app.route("/load")
+def loadaverage():
+    loadavg = psutil.getloadavg()
+    json_payload=[{"1min":loadavg[0], "5min":loadavg[1], "10min":loadavg[2]}]
+
+    return jsonify(json_payload)
+    app.run()
+
+
 
 # teapot
 @app.route("/teapot")
