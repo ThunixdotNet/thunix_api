@@ -85,7 +85,7 @@ def teapot():
             "width": "stout"
         }
     ]
-    return jsonify(teapots)
+    return jsonify(teapots),418
     app.run()
 
 
