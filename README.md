@@ -38,17 +38,17 @@ This endpoint shall return a json struct containing interfaces, and IP addresses
 ```
 {
     "Interfaces":[
-      {
-         "Name":"eth0",
-         "Addresses":[
-            "10.0.0.1/32",
-            "10.0.1.100/24"
+        {
+            "Name":"eth0",
+            "Addresses":[
+                "10.0.0.1/32",
+                "10.0.1.100/24"
             ]
         },
         {
-             "Name":"wg0",
-             "Addresses":[
-                "192.168.0.1/24"
+            "Name":"wg0",
+            "Addresses":[
+               "192.168.0.1/24"
             ]
         }
     ]
@@ -74,8 +74,8 @@ This shall return a struct, describing the current tea making capabilities of th
 
 ```
 {
-   "tea" : "available",
-   "height" : "short",
-   "width" : "stout
+   "tea":"available",
+   "height":"short",
+   "width":"stout
 }
 ```
