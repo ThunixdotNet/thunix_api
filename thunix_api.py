@@ -1,23 +1,18 @@
 #!/usr/bin/python3
 
-from flask import Flask
-from flask_restful import Resource, Api, abort
+"""Runner for thunix_api"""
 
-import datetime
-import flask
-import json
-import psutil
-import socket
-import time
+from flask import Flask
+from flask_restful import Api
 
 from endpoints import disk, home, ip_info, load, memory, teapot, uptime
 
-app = Flask(__name__)
-api = Api(app)
+app = Flask(__name__) # pylint: disable=C0103
+api = Api(app) # pylint: disable=C0103
 
 api.add_resource(disk.Disk, "/disk")
 api.add_resource(home.Home, "/")
-api.add_resource(ip_info.Ip_Info, "/ip_info")
+api.add_resource(ip_info.IpInfo, "/ip_info")
 api.add_resource(load.Load, "/load")
 api.add_resource(memory.Memory, "/mem")
 api.add_resource(teapot.Teapot, "/teapot")

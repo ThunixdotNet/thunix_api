@@ -1,12 +1,13 @@
-from flask_restful import Resource
 import datetime
+from flask_restful import Resource
 
 class Uptime(Resource):
     def get(self):
+        # pylint: disable=C0103
         with open("/proc/uptime", "r") as f:
             secs = float(f.readline().split()[0])
         delta = datetime.timedelta(seconds=secs)
-    
+
         payload = [
             {
                 "days": delta.days,
@@ -15,5 +16,5 @@ class Uptime(Resource):
                 "seconds": delta.seconds
             }
         ]
-    
+
         return payload

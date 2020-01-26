@@ -1,8 +1,8 @@
-from flask_restful import Resource
-import psutil
 import socket
+import psutil
+from flask_restful import Resource
 
-class Ip_Info(Resource):
+class IpInfo(Resource):
     def get_ip_addresses(self, family):
         ip_addresses = []
         for interface, snics in psutil.net_if_addrs().items():
@@ -18,10 +18,10 @@ class Ip_Info(Resource):
                         }
                     )
         return ip_addresses
-    
+
     def get(self):
         ipv4 = self.get_ip_addresses(socket.AF_INET)
-        
+
         payload = [
             {
                 "Interfaces": []
@@ -29,5 +29,5 @@ class Ip_Info(Resource):
         ]
         for addr in ipv4:
             payload[0]["Interfaces"].append(addr)
-    
+
         return payload
