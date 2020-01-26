@@ -1,127 +1,27 @@
 #!/usr/bin/python3
 
-# thunix_api.py
+from flask import Flask
+from flask_restful import Resource, Api, abort
+
+import datetime
 import flask
+import json
+import psutil
+import socket
+import time
 
-from flask import Flask, request, jsonify
-
-import psutil, datetime, time, socket, json
-
+from endpoints import disk, home, ip_info, load, memory, teapot, uptime
 
 app = Flask(__name__)
+api = Api(app)
 
+api.add_resource(disk.Disk, "/disk")
+api.add_resource(home.Home, "/")
+api.add_resource(ip_info.Ip_Info, "/ip_info")
+api.add_resource(load.Load, "/load")
+api.add_resource(memory.Memory, "/mem")
+api.add_resource(teapot.Teapot, "/teapot")
+api.add_resource(uptime.Uptime, "/uptime")
 
-# No endpoint selected
-@app.route("/")
-def home():
-    print ("Content-Type: application/json\n")
-    payload = [{"Description":"The Thunix API.  Please see https://wiki.thunix.net/wiki/api for more information."}]
-    return jsonify(payload) 
+if __name__ == "__main__":
     app.run()
-
-
-# ip_info
-@app.route("/ip_info")
-def ip_info():
-    print ("Content-Type: application/json\n")
-    def get_ip_addresses(family):
-        for interface, snics in psutil.net_if_addrs().items():
-            for snic in snics:
-                if snic.family == family:
-                    yield (interface, snic.address, snic.netmask)
-
-    ipv4s = list(get_ip_addresses(socket.AF_INET))
-
-
-    payload = "{\"Interfaces\":["
-    i = 0
-    for i in range(len(ipv4s)) :
-      payload = payload + "{"
-      payload = payload + '"Interface":' + '"' + ipv4s[i][0] + '",'
-      payload = payload + '"Address":' + '"' + ipv4s[i][1] + '",'
-      payload = payload + '"Netmask":' + '"' + ipv4s[i][2] + '"'
-      payload = payload + "}"
-      i = i + 1
-      if (i < len(ipv4s)) :
-        payload = payload + ","
-      else:
-        payload = payload + ""
-    payload = payload + "]"
-    payload = payload + "}"
-    payload = json.loads(payload)
-    return jsonify(payload)
-    app.run()
-
-
-# uptime
-@app.route("/uptime")
-def uptime():
-    print ("Content-Type: application/json\n")
-    with open('/proc/uptime', 'r') as f:
-      secs = float(f.readline().split()[0])
-    day = secs // (24 * 3600)
-    secs = secs % (24 * 3600)
-    hour = secs // 3600
-    secs %= 3600
-    minutes = secs // 60
-    secs %= 60
-    seconds = secs 
-    payload = [
-        {
-          "days": day,
-          "hours": hour,
-          "minutes": minutes,
-          "seconds": seconds
-        }
-    ]
-    return jsonify(payload)
-        
-    app.run()
-
-# load avg
-@app.route("/load")
-def loadaverage():
-    print ("Content-Type: application/json\n")
-    loadavg = psutil.getloadavg()
-    payload=[{"1min":loadavg[0], "5min":loadavg[1], "10min":loadavg[2]}]
-
-    return jsonify(payload),200
-    app.run()
-
-# memory
-@app.route("/mem")
-def memory():
-  print("Content-Type: application/json\n")
-  vmem_usage = psutil.virtual_memory()
-  smem_usage = psutil.swap_memory()
-  #payload = ["Physical Memory" {\
-  return jsonify([{"Unavailable":"501"}]),501
-  app.run()
-
-# disk usage
-@app.route("/disk")
-def disk():
-  print("Content-Type: application/json\n")
-  
-  return jsonify([{"Unavailable":"501"}]),501
-  app.run()
-
-# teapot
-@app.route("/teapot")
-def teapot():
-    print ("Content-Type: application/json\n")
-    teapots = [
-        {
-            "tea": "available",
-            "height": "short",
-            "width": "stout"
-        }
-    ]
-    return jsonify(teapots),418
-    app.run()
-
-
-# main loop
-if __name__ == "__main__":  # on running python app.py
-    app.run()  # run the flask app
-
