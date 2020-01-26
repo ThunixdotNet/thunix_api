@@ -1,4 +1,5 @@
 from flask_restful import Resource, abort
+import psutil
 
 class Memory(Resource):
     def get(self):

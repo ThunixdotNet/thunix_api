@@ -1,5 +1,6 @@
 from flask_restful import Resource
 import psutil
+import socket
 
 class Ip_Info(Resource):
     def get_ip_addresses(self, family):
