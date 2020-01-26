@@ -85,8 +85,26 @@ def loadaverage():
     loadavg = psutil.getloadavg()
     payload=[{"1min":loadavg[0], "5min":loadavg[1], "10min":loadavg[2]}]
 
-    return jsonify(payload)
+    return jsonify(payload),200
     app.run()
+
+# memory
+@app.route("/mem")
+def memory():
+  print("Content-Type: application/json\n")
+  vmem_usage = psutil.virtual_memory()
+  smem_usage = psutil.swap_memory()
+  #payload = ["Physical Memory" {\
+  return jsonify([{"Unavailable":"501"}]),501
+  app.run()
+
+# disk usage
+@app.route("/disk")
+def disk():
+  print("Content-Type: application/json\n")
+  
+  return jsonify([{"Unavailable":"501"}]),501
+  app.run()
 
 # teapot
 @app.route("/teapot")
