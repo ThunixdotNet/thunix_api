@@ -1,6 +1,6 @@
 # Thunix API
 
-This is the working spec for the Thunix API.  Until finalization, the spec will be consider v1.  v1 of the API shall be considered unstable, and a work in progress.
+This is the working spec for the Thunix API.  Until finalization, the spec will be consider v1.  v1 of the API shall be considered unstable, and a work in progress.  The API should be agnostic to linux distros, and flavors of \*Nix OS's (ie, BSD, etc) whenever possible.
 
 The API will be authenticated, at all times, using the user's credentials sent in the host headers.
 
