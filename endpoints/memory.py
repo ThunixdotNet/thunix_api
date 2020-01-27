@@ -11,5 +11,5 @@ class Memory(Resource):
           "used":vmem_usage.used,
           "percent":vmem_usage.percent
         }
-        #abort(501, message="Not currently implemented.")
+
         return json_payload
