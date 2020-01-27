@@ -8,7 +8,7 @@ The API shall return a 200 for successful requests, with the JSON paylod.
 
 The API shall return a 400 for any endpoint not existent.
 
-The API shall return a 401 for unauthenticated requests.
+The API shall return a 401 for unauthenticated requests to endpoints requiring authentication.
 
 The API shall return a 403 for requests which are authenticated, but not permissible for the authenticated user.
 
@@ -24,7 +24,7 @@ The API shall return a 501 for requests which exist in the spec, but have not be
 The API is a RESTful API, and the following URIs will be used:
 
 ```
-https:{hostname}/api/1/{action}
+https://{hostname}/api/1/{action}
 ```
 
 
