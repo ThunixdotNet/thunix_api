@@ -57,7 +57,7 @@ This endpoint shall return a json struct containing interfaces, and IP addresses
 
 ### uptime
 
-This will return a struct of system uptime:
+This will return a JSON payload of system uptime:
 
 ```
 {
@@ -65,6 +65,19 @@ This will return a struct of system uptime:
    "hours":16,
    "mins":22,
    "secs":3
+}
+```
+
+### mem
+
+This will return a JSON payload containing information about the system memory, in bytes:
+
+```
+{
+   "free" : 8668672000,
+   "total" : 33638055936,
+   "percent" : 74.2,
+   "used" : 22686449664
 }
 ```
 
