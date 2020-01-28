@@ -1,5 +1,9 @@
 from flask_restful import Resource, abort
+import psutil
 
 class Disk(Resource):
     def get(self):
-        abort(501, message="Not currently implemented.")
+        disk_usage = psutil.disk_usage('/')
+        payload = {"total":disk_usage.total,"used":disk_usage.used,"percentused":disk_usage.percent}
+        return payload
+        ##abort(501, message="Not currently implemented.")
