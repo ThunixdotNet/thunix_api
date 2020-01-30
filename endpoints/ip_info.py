@@ -21,6 +21,7 @@ class IpInfo(Resource):
 
     def get(self):
         ipv4 = self.get_ip_addresses(socket.AF_INET)
+        ipv6 = self.get_ip_addresses(socket.AF_INET6)
 
         payload = [
             {
@@ -28,6 +29,9 @@ class IpInfo(Resource):
             }
         ]
         for addr in ipv4:
+            payload[0]["Interfaces"].append(addr)
+
+        for addr in ipv6:
             payload[0]["Interfaces"].append(addr)
 
         return payload

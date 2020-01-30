@@ -4,6 +4,9 @@ import psutil
 class Disk(Resource):
     def get(self):
         disk_usage = psutil.disk_usage('/')
-        payload = {"total":disk_usage.total,"used":disk_usage.used,"percentused":disk_usage.percent}
+        payload = {
+            "total":disk_usage.total,
+            "used":disk_usage.used,
+            "percentused":disk_usage.percent
+            }
         return payload
-        ##abort(501, message="Not currently implemented.")
