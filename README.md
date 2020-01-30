@@ -24,7 +24,7 @@ The API shall return a 501 for requests which exist in the spec, but have not be
 The API is a RESTful API, and the following URIs will be used:
 
 ```
-https://{hostname}/api/1/{action}
+https://{hostname}/api/v1/{action}
 ```
 
 
