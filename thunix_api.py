@@ -10,7 +10,7 @@ from endpoints import disk, home, ip_info, load, memory, teapot, uptime
 app = Flask(__name__) # pylint: disable=C0103
 api = Api(app) # pylint: disable=C0103
 api_version = "1"
-url_prepend = "/api/" + api_version
+url_prepend = "/api/v" + api_version
 api.add_resource(disk.Disk, url_prepend +  "/disk")
 api.add_resource(home.Home, url_prepend )
 api.add_resource(ip_info.IpInfo, url_prepend + "/ip_info")
