@@ -1,13 +1,11 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 """Runner for thunix_api"""
-
 from flask import Flask
 from flask_restful import Api
 
-from endpoints import disk, home, ip_info, load, memory, teapot, uptime
-
 app = Flask(__name__) # pylint: disable=C0103
+import disk, home, ip_info, load, memory, teapot, uptime
 api = Api(app) # pylint: disable=C0103
 api_version = "1"
 url_prepend = "/api/v" + api_version
